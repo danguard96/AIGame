@@ -58,20 +58,48 @@ public class SteeringBehaviour : MonoBehaviour
         return false;
     }
 
-    private void seek(Vector3 tTarget) {
+    public void seek(Vector3 tTarget) {
         if(KinematicArrivep.getSteering(tTarget, transform.position, ref orientation, maxSpeed, 1f) != null){
             KinematicSteeringInfo info = KinematicSeekp.getSteering(tTarget, transform.position, ref orientation, maxSpeed);
             transform.position += info.velocity * Time.deltaTime;
             orientation += info.rotation * Time.deltaTime;
         }
     }
-    
+
+    public void flee(Vector3 tTarget)
+    {
+        if (KinematicArrivep.getSteering(tTarget, transform.position, ref orientation, maxSpeed, 1f) != null){
+            KinematicSteeringInfo info = KinematicFleep.getSteering(tTarget, transform.position, ref orientation, maxSpeed);
+            transform.position += info.velocity * Time.deltaTime;
+            orientation += info.rotation * Time.deltaTime;
+        }
+    }
+
 }
 
 class KinematicSeekp{
     public static KinematicSteeringInfo getSteering(Vector3 target, Vector3 initialPos, ref float orientation, float maxSpeed){
         KinematicSteeringInfo info = new KinematicSteeringInfo();
         info.velocity = target - initialPos;
+        info.velocity.Normalize();
+        info.velocity *= maxSpeed;
+
+        orientation = NewOrientation(orientation, info.velocity);
+        info.rotation = 0;
+        return info;
+    }
+    static float NewOrientation(float current, Vector3 velocity){
+        if(velocity.magnitude > 0){
+            return Mathf.Atan2( -velocity.x, velocity.y) * Mathf.Rad2Deg;
+        }
+        return current;
+    }
+}
+
+class KinematicFleep{
+    public static KinematicSteeringInfo getSteering(Vector3 target, Vector3 initialPos, ref float orientation, float maxSpeed){
+        KinematicSteeringInfo info = new KinematicSteeringInfo();
+        info.velocity = initialPos - target;
         info.velocity.Normalize();
         info.velocity *= maxSpeed;
 
