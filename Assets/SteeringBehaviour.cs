@@ -14,21 +14,28 @@ public class SteeringBehaviour : MonoBehaviour
     Pathp path;
     int currentNode = 0;
 
+    PathfindingBehaviour pb;
+
     // Start is called before the first frame update
     void Start()
     {
         path = new Pathp();
-        path.AddNode(new Vector3(-20.5f,-14,0));
-        path.AddNode(new Vector3(-20.5f,6,0));
-        path.AddNode(new Vector3(27,6,0));
-        path.AddNode(new Vector3(27,-14,0));
+        pb = gameObject.GetComponent<PathfindingBehaviour>();
+        pb.initialize();
+        List<Cell> bfsPath = pb.shortestPath(pb.amn, new Vector2(transform.position.x, transform.position.y), new Vector2(-20.5f,6));
+        foreach (var val in bfsPath)
+        {
+            path.AddNode(new Vector3(val.x + pb.xMin,val.y + pb.yMin,0));
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         target = player.transform.position;
-        pathFollowing();
+        if(path.GetNodes().Count > 0){
+            pathFollowing();
+        }
         //seek(target);
     }
 

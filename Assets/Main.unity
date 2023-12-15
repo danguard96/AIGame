@@ -74481,6 +74481,7 @@ GameObject:
   - component: {fileID: 1489314037}
   - component: {fileID: 1489314036}
   - component: {fileID: 1489314040}
+  - component: {fileID: 1489314041}
   m_Layer: 3
   m_Name: NPC
   m_TagString: Player
@@ -74641,6 +74642,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 5
   player: {fileID: 1381655428}
+--- !u!114 &1489314041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489314035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a1de2739c9ed7b4fa61d51aee1cf1d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collider: {fileID: 308930510}
+  xMin: -27
+  yMin: -20
 --- !u!1 &1517939562
 GameObject:
   m_ObjectHideFlags: 3
